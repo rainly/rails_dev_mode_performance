@@ -1,4 +1,10 @@
-TRUNK
+0.6 - Nov 8, 2008
+
+* updated to work with rails 2.1.2
+
+
+
+OLD Rails 1.2x version
 
 * don't got thru all of ObjectSpace unless the constant we are removing actually derives from AR and might need the association patch ups
 * store the new timestamp when a file changes, don't just remove the old one

@@ -1,7 +1,5 @@
-Development Mode Performance Fixes
-==================================
-
-*** Currently only tested with Rails 1.2.3
+Rails Dev Mode Performence
+==========================
 
 So I use dev mode a lot... I'm tweaking a view, or playing around with some code I actually want to SEE working... The point is that with a large app (+15 models/controllers and some advanced routes) Rails dev mode really starts to suck just clicking thru your app or even refreshing a single page periodically.  I was looking at like 1.5 seconds (last gen. Powerbook) to just to check a box via some AJAX. (there are a lot of permission checks involved, but still that's silly)
 
