@@ -1,3 +1,8 @@
+0.6.1 - Nov 9, 2008
+
+* add auto reload to TemplateFinder so if it doesn't find a view in it's cached 
+  directory scan then it will try again before failing
+
 0.6 - Nov 8, 2008
 
 * updated to work with rails 2.1.2
