@@ -15,8 +15,6 @@ ActionController::Dispatcher.class_eval do
     run_callbacks :prepare_dispatch
 
     ActionController::Routing::Routes.reload
-    # we'll be pathing template finder to only do a reload in the case
-    # of a problem (missing template, error loading cached template)
 #    ActionView::TemplateFinder.reload! unless ActionView::Base.cache_template_loading
   end
   

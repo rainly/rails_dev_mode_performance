@@ -1,11 +1,12 @@
 # these hacks are only for faster development
 if RAILS_ENV=="development"
-# we need to load the rails dispatcher because normally it's not loaded so early
+  # we need to load the rails dispatcher because normally it's not loaded so early
   require 'dispatcher'
-  require 'dispatcher_hacks'
-  # ActiveSupport::Dependencies
-  # ActionView::TemplateFinder
-  require 'dep_hacks'
+  
+  # these hacks kind of change everything around
+  # require 'dispatcher_hacks'
+  # require 'dep_hacks'
+  # 100% safe hacks
   require 'template_finder_hacks'
 end
 

@@ -35,6 +35,12 @@ end
 
 ActionView::TemplateFinder.class_eval do
 
+  # make reload! impotent incase we're only using this patch
+  class << self    
+    def reload! 
+    end
+  end
+
   # if the template doesn't exist the first time we need to reload 
   # the view path cache and try again incase it's changed
   def file_exists_with_auto_reload?(path)
