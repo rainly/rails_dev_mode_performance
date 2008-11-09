@@ -189,41 +189,38 @@ end
 
 class Class
 
-    # alias :old_inherited :inherited
+  # alias :old_inherited :inherited
 
-    # this is slick, but it goes us WAY too many objects to track
-    # def inherited(subclass)
-    #   puts "CLASS INHERITED: #{subclass} inherits #{self}"
-    #   Dependencies.reload_objects_tree[self.to_s]||=[]
-    #   Dependencies.reload_objects_tree[self.to_s] << subclass.to_s
-    #   old_inherited(subclass)
-    # end
+  # this is slick, but it goes us WAY too many objects to track
+  # def inherited(subclass)
+  #   puts "CLASS INHERITED: #{subclass} inherits #{self}"
+  #   Dependencies.reload_objects_tree[self.to_s]||=[]
+  #   Dependencies.reload_objects_tree[self.to_s] << subclass.to_s
+  #   old_inherited(subclass)
+  # end
 
-    class Class
-      def const_missing(const_name)
-        if [Object, Kernel].include?(self) || parent == self
-          x=super
-          if x.is_a? Class
-            Dependencies.reload_objects_tree[x.superclass.to_s]||=[]
-            Dependencies.reload_objects_tree[x.superclass.to_s] << x.to_s
-          end
-          x
-        else
-          begin
-            begin
-              ActiveSupport::Dependencies.load_missing_constant self, const_name
-            rescue NameError
-              parent.send :const_missing, const_name
-            end
-          rescue NameError => e
-            # Make sure that the name we are missing is the one that caused the error
-            parent_qualified_name = ActiveSupport::Dependencies.qualified_name_for parent, const_name
-            raise unless e.missing_name? parent_qualified_name
-            qualified_name = ActiveSupport::Dependencies.qualified_name_for self, const_name
-            raise NameError.new("uninitialized constant #{qualified_name}").copy_blame!(e)
-          end
+  def const_missing(const_name)
+    if [Object, Kernel].include?(self) || parent == self
+      x=super
+      if x.is_a? Class
+        Dependencies.reload_objects_tree[x.superclass.to_s]||=[]
+        Dependencies.reload_objects_tree[x.superclass.to_s] << x.to_s
+      end
+      x
+    else
+      begin
+        begin
+          ActiveSupport::Dependencies.load_missing_constant self, const_name
+        rescue NameError
+          parent.send :const_missing, const_name
         end
+      rescue NameError => e
+        # Make sure that the name we are missing is the one that caused the error
+        parent_qualified_name = ActiveSupport::Dependencies.qualified_name_for parent, const_name
+        raise unless e.missing_name? parent_qualified_name
+        qualified_name = ActiveSupport::Dependencies.qualified_name_for self, const_name
+        raise NameError.new("uninitialized constant #{qualified_name}").copy_blame!(e)
       end
     end
-
+  end
 end
