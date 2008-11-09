@@ -6,5 +6,6 @@ if RAILS_ENV=="development"
   # ActiveSupport::Dependencies
   # ActionView::TemplateFinder
   require 'dep_hacks'
+  require 'template_finder_hacks'
 end
 
