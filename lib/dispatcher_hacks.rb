@@ -60,7 +60,9 @@ module ActionView
 end
 
 ActionView::TemplateFinder.class_eval do
-  
+
+  # if the template doesn't exist the first time we need to reload 
+  # the view path cache and try again incase it's changed
   def file_exists_with_auto_reload?(path)
     result=file_exists_without_auto_reload?(path)
     unless result
@@ -70,7 +72,15 @@ ActionView::TemplateFinder.class_eval do
     end
     result
   end
-  
   alias_method_chain :file_exists?, :auto_reload  
+  
+  # if a file that used to be in place can no longer be found
+  # then we need to return false, which will coincidentally
+  # force an auto-reload which will remove this bad data so
+  # it won't befound next request cycle
+  def find_base_path_for(template_file_name)
+    p=@view_paths.find { |path| self.class.processed_view_paths[path].include?(template_file_name) }
+    return p if p and File.exists?(File.join(p, template_file_name))
+  end  
   
 end
