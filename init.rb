@@ -4,8 +4,8 @@ if RAILS_ENV=="development"
   require 'dispatcher'
   
   # these hacks kind of change everything around
-  # require 'dispatcher_hacks'
-  # require 'dep_hacks'
+  require 'dispatcher_hacks'
+  require 'dep_hacks'
   # 100% safe hacks
   require 'template_finder_hacks'
 end
