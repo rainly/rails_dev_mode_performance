@@ -86,16 +86,13 @@ ActiveSupport::Dependencies.module_eval do
       remove_unloadable_constants!
     end
     
-    # def log_call(*args)
-    # end
-
     def log_call(*args)
-      # if defined?(RAILS_DEFAULT_LOGGER) && RAILS_DEFAULT_LOGGER && log_activity
+      if defined?(RAILS_DEFAULT_LOGGER) && RAILS_DEFAULT_LOGGER && log_activity
         arg_str = args.collect(&:inspect) * ', '
         /in `([a-z_\?\!]+)'/ =~ caller(1).first
         selector = $1 || '<unknown>'
-        puts "called #{selector}(#{arg_str})"
-      # end
+        log "called #{selector}(#{arg_str})"
+      end
     end
     
     def unload_constants_by_file_modifications
