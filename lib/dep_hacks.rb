@@ -179,8 +179,8 @@ class Module
     # if this module is modified then we need to reload the higher level module
     # theck for # signs so we only log named modules
     unless self.to_s[0..0]=="#" or to_module.to_s[0..0]=="#"
-      Dependencies.reload_objects_tree[self.to_s]||=[]
-      Dependencies.reload_objects_tree[self.to_s]<< to_module.to_s
+      ActiveSupport::Dependencies.reload_objects_tree[self.to_s]||=[]
+      ActiveSupport::Dependencies.reload_objects_tree[self.to_s]<< to_module.to_s
     end
     original_included(to_module)
   end
@@ -203,8 +203,8 @@ class Class
     if [Object, Kernel].include?(self) || parent == self
       x=super
       if x.is_a? Class
-        Dependencies.reload_objects_tree[x.superclass.to_s]||=[]
-        Dependencies.reload_objects_tree[x.superclass.to_s] << x.to_s
+        ActiveSupport::Dependencies.reload_objects_tree[x.superclass.to_s]||=[]
+        ActiveSupport::Dependencies.reload_objects_tree[x.superclass.to_s] << x.to_s
       end
       x
     else
