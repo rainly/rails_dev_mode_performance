@@ -15,7 +15,9 @@ ActionController::Dispatcher.class_eval do
     run_callbacks :prepare_dispatch
 
     ActionController::Routing::Routes.reload
-#    ActionController::Base.view_paths.reload!
+    # we don't need this because of template_renderable_hacks
+#   ActionController::Base.view_paths.reload!
+    # this doesn't seem to have a heavy performance penalty
     ActionView::Helpers::AssetTagHelper::AssetTag::Cache.clear
   end
   

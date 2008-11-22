@@ -1,4 +1,17 @@
 module ActionView #:nodoc:
+  
+  class Base
+    
+    def _pick_template_with_file_exists(template_path)
+      template=_pick_template_without_file_exists(template_path)
+      # call into the template just to make sure it's still there
+      # and if not give it a chance to raise MissingTemplate
+      template.file_changed?
+      template
+    end
+    alias_method_chain :_pick_template, :file_exists
+  end
+  
   class Template
     
     attr_accessor :last_modified
@@ -14,6 +27,7 @@ module ActionView #:nodoc:
     end
     
     def file_changed?
+      raise MissingTemplate.new([load_path], File.basename(filename)) unless File.exists?(filename)
       @last_modified.nil? or File.stat(filename).mtime > @last_modified
     end
     
