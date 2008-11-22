@@ -15,7 +15,8 @@ ActionController::Dispatcher.class_eval do
     run_callbacks :prepare_dispatch
 
     ActionController::Routing::Routes.reload
-#    ActionView::TemplateFinder.reload! unless ActionView::Base.cache_template_loading
+#    ActionController::Base.view_paths.reload!
+    ActionView::Helpers::AssetTagHelper::AssetTag::Cache.clear
   end
   
 

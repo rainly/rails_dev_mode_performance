@@ -6,7 +6,11 @@ if RAILS_ENV=="development"
   # these hacks kind of change everything around
   require 'dispatcher_hacks'
   require 'dep_hacks'
-  # should be 100% safe hacks
-  require 'template_finder_hacks'
+#  ActionView.eager_load_templates=false
+  
+  # for rails 2.1
+  # require 'template_finder_hacks'
+  # for rails 2.2
+  require 'template_renderable_hacks'
 end
 
